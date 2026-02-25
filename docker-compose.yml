@@ -1,0 +1,40 @@
+services:
+  # --- FRONTEND (ANGULAR) ---
+  web_newfarma:
+    build: ./newfarmafrontangular  # Ruta a la carpeta de tu proyecto Angular
+    ports:
+      - "4200:80"      # Accederás desde http://localhost:4200
+    depends_on:
+      - app_newfarma
+    restart: always
+# --- BACKEND (SPRING BOOT) ---
+  app_newfarma:
+    build: apinewfarma
+    mem_limit: 512m
+    ports:
+      - "8000:8000"    # Corregido el mapeo para que coincida con tu log de Spring
+    environment:
+      SECRET_KEY: c2VjcmV0a2V5Zm9ydGVzdGluZ2FuZHByb2plY3QxMjM0NTY3ODkwMTIzNDU2Nzg5MA
+      EXPIRATION: 86400000
+      REFRESH_EXPIRATION: 604800000
+      DB_URL: jdbc:mysql://newfarmabd:3306/mydbfull?createDatabaseIfNotExist=true&serverTimezone=UTC
+      DB_USER_NAME: root
+      DB_PASSWORD: 123
+    restart: always
+    depends_on:
+      newfarmabd:
+        condition: service_healthy
+# --- DATABASE (MYSQL) ---
+  newfarmabd:
+    image: mysql:8.0.33
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: mydbfull
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
+      interval: 10s
