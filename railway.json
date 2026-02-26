@@ -1,7 +1,8 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "dockerfile": "docker-compose.yml"
+    "strategy": "dockerfile",
+    "dockerfilePath": "docker-compose.yml"
   },
   "deploy": {
     "numReplicas": 1,
