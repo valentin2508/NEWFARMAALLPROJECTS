@@ -2,7 +2,8 @@
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "strategy": "docker",
-    "dockerfilePath": "./newfarmafrontangular/Dockerfile"
+    "context": ".",
+    "dockerfilePath": "newfarmafrontangular/Dockerfile"
   },
   "deploy": {
     "runtime": "V2",
