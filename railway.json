@@ -1,7 +1,11 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
-    "strategy": "nixpacks"
+    "builder": "NIXPACKS",
+    "buildCommand": "cd newfarmafrontangular && npm install && npm run build",
+    "watchPatterns": [
+      "newfarmafrontangular/**"
+    ]
   },
   "deploy": {
     "runtime": "V2",
